@@ -181,13 +181,20 @@ def pre_solve(a, b):
         beg = guas_to_gua[num_to_gua[a%8]] + guas_to_gua[num_to_gua[b%8]]
     else:
         beg = guas_to_gua[num_to_gua[b%8]] + guas_to_gua[num_to_gua[a%8]]
-    ddy = -(dy + 1)
     hug = beg[1:4] + beg[2:5]
     big = beg
-    big[ddy] = numn(big[ddy])
+    big = list(reversed(big))
+    big[dy] = numn(big[dy])
+    big = list(reversed(big))
+    print(beg)
+    print(hug)
+    print(big)
     beg = [gua_to_guas[tuple(beg[0:3])], gua_to_guas[tuple(beg[3:6])]]
     hug = [gua_to_guas[tuple(hug[0:3])], gua_to_guas[tuple(hug[3:6])]]
     big = [gua_to_guas[tuple(big[0:3])], gua_to_guas[tuple(big[3:6])]]
+    print(beg)
+    print(hug)
+    print(big)
     return(dy, beg, hug, big)
 
 def meihua(a, b):
