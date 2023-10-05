@@ -140,9 +140,9 @@ out_str = '''上卦:{up_gua}
 动变爻{dy}
 {gua_flag}
 
-本卦:{this} (体卦:{this_a}卦 属{this_a_xp}, 用卦:{this_b}卦 属{this_b_xp})
-互见:{rand} (体卦:{rand_a}卦 属{rand_a_xp}, 用卦:{rand_b}卦 属{rand_b_xp})
-变卦:{change} (体卦:{change_a}卦 属{change_a_xp}, 用卦:{change_b}卦 属{change_b_xp})
+本卦:{this} (上卦:{this_a}卦 属{this_a_xp}, 下卦:{this_b}卦 属{this_b_xp})
+互见:{rand} (上卦:{rand_a}卦 属{rand_a_xp}, 下卦:{rand_b}卦 属{rand_b_xp})
+变卦:{change} (上卦:{change_a}卦 属{change_a_xp}, 下卦:{change_b}卦 属{change_b_xp})
 
 初步评估:
 开始:{begin_flag} {begin}
@@ -177,10 +177,13 @@ def item_pk(a, b):
 
 def pre_solve(a, b):
     dy = (a + b)%6
+    """
     if dy in [1, 2, 3]:
         beg = guas_to_gua[num_to_gua[a%8]] + guas_to_gua[num_to_gua[b%8]]
     else:
         beg = guas_to_gua[num_to_gua[b%8]] + guas_to_gua[num_to_gua[a%8]]
+    """
+    beg = guas_to_gua[num_to_gua[a%8]] + guas_to_gua[num_to_gua[b%8]]
     hug = beg[1:4] + beg[2:5]
     big = beg
     big = list(reversed(big))
@@ -224,6 +227,10 @@ def meihua(a, b):
     d["change_b"] = big[1]
     d["change_b_xp"] = gua_xps[big[1]][0]
 
+    if not(dy in [1, 2, 3]):
+        beg = list(reversed(beg))
+        hug = list(reversed(hug))
+        big = list(reversed(big))
     tmp = item_pk(*(tuple(beg)))
     d["begin_flag"] = tmp[0]
     d["begin"] = tmp[1]
