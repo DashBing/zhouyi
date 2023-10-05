@@ -186,15 +186,9 @@ def pre_solve(a, b):
     big = list(reversed(big))
     big[dy] = numn(big[dy])
     big = list(reversed(big))
-    print(beg)
-    print(hug)
-    print(big)
     beg = [gua_to_guas[tuple(beg[0:3])], gua_to_guas[tuple(beg[3:6])]]
     hug = [gua_to_guas[tuple(hug[0:3])], gua_to_guas[tuple(hug[3:6])]]
     big = [gua_to_guas[tuple(big[0:3])], gua_to_guas[tuple(big[3:6])]]
-    print(beg)
-    print(hug)
-    print(big)
     return(dy, beg, hug, big)
 
 def meihua(a, b):
