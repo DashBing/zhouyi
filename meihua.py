@@ -18,14 +18,14 @@ def rev_dict(d):
     "艮"
 ]
 
-卦象 = {
+卦象 = {  # 低位为下爻，高位为上爻，从下往上数
     "乾":(1,1,1),
-    "兑":(0,1,1),
+    "兑":(1,1,0),
     "离":(1,0,1),
-    "震":(0,0,1),
-    "巽":(1,1,0),
+    "震":(1,0,0),
+    "巽":(0,1,1),
     "坎":(0,1,0),
-    "艮":(1,0,0),
+    "艮":(0,0,1),
     "坤":(0,0,0)
 }
 
@@ -140,7 +140,19 @@ class 卦:
             self.data = data.data
         elif type(data) == type(list) or type(data) == type(tuple):
             self.data = tuple(data)
+        elif type(data) == type(int):
+            self.data = rev_dict(卦象)[卦表[data%8]]
+        elif type(data) == type(str) and data in 卦表:
+            self.data = 卦象[data]
         else:
             raise Exception("初始化错误：不支持的卦初始化数据")
         if not self.available[0]:
             raise Exception(self.available[1])
+
+    @property
+    def name(self):
+        return(rev_dict(卦象)[self.data])
+
+    @property
+    def elements(self):
+        return(卦性[self.name])
