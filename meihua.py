@@ -1,3 +1,6 @@
+from typing import Any
+
+
 def rev_dict(d):
     tmp = {}
     for i in d:
@@ -129,7 +132,7 @@ class 卦:
         if len(self.data) != 3:
             return (False, "运行时错误：卦象格式错误")
         for i in self.data:
-            if type(i) != type(int) or type(i) != type(bool):
+            if type(i) != type(int()) and type(i) != type(bool()):
                 return (False, "运行时错误：卦象格式错误")
             if int(i) not in (0, 1):
                 return (False, "运行时错误：卦象格式错误")
@@ -142,11 +145,11 @@ class 卦:
     def __init__(self, data):
         if type(data) == type(self):
             self.data = data.data
-        elif type(data) == type(list) or type(data) == type(tuple):
+        elif type(data) == type(list()) or type(data) == type(tuple()):
             self.data = tuple(data)
-        elif type(data) == type(int):
-            self.data = rev_dict(卦象)[卦表[data%8]]
-        elif type(data) == type(str) and data in 卦表:
+        elif type(data) == type(int()):
+            self.data = 卦象[卦表[data%8]]
+        elif type(data) == type(str()) and data in 卦表:
             self.data = 卦象[data]
         else:
             raise Exception("初始化错误：不支持的卦初始化数据")
@@ -165,15 +168,24 @@ class 卦:
     def __eq__(self, value):
         self.selftest()
         return(self.data == value.data)
+    
+    def __repr__(self):
+        return("卦(%s)"%self.data.__repr__())
+    
+    def __str__(self):
+        return("卦(%s)"%self.data.__str__())
+
+    def __getitem__(self, index:int):
+        return(self.data.__getitem__(index))
 
 class 复卦:
     @property
     def available(self):
-        if type(self.data) != type(list):
+        if type(self.data) != type(list()):
             return(False, "运行时错误：复卦格式错误")
         if len(self.data) != 2:
             return(False, "运行时错误：复卦格式错误")
-        if type(self.data[0]) != type(卦) or type(self.data[1]) != type(卦):
+        if type(self.data[0]) != type(卦(0)) or type(self.data[1]) != type(卦(0)):
             return(False, "运行时错误：复卦格式错误")
         for i in self.change:
             if type(i) != type(int):
@@ -185,12 +197,28 @@ class 复卦:
             raise Exception(self.available[1])
 
     def __init__(self, gua1:卦, gua2:卦, change:list[int]):
-        if map(type, [gua1, gua2, change]) != map(type, [卦, 卦, list]):
+        if list(map(type, [gua1, gua2, change])) != list(map(type, [卦(0), 卦(0), []])):
             raise Exception("初始化错误：复卦初始化失败")
-        self.data = [gua1, gua2]
+        self.data = [gua2, gua1]
         self.change = change
         self.selftest()
+
+    def __repr__(self):
+        return("复卦(%s, %s, %s)"%(self.data[0].__repr__(), self.data[1].__repr__(), self.change.__repr__()))
+    
+    def __str__(self):
+        return("复卦(%s, %s, %s)"%(self.data[0].__str__(), self.data[1].__str__(), self.change.__str__()))
+
+    @property
+    def name(self):
+        return(复卦名[(self.data[1].name, self.data[0].name)])
 
     @property
     def 互卦(self):
         self.selftest()
+        return(复卦(卦([self.data[0][2], self.data[1][0], self.data[1][1]]), 卦([self.data[0][1], self.data[0][2], self.data[1][0]]), []))
+
+if __name__ == "__main__":
+    a = 复卦(卦("巽"), 卦("乾"), [])
+    print(a.互卦.name)
+    print(a.互卦)
