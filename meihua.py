@@ -135,6 +135,10 @@ class 卦:
                 return (False, "运行时错误：卦象格式错误")
         return (True, "运行状态良好")
 
+    def selftest(self):
+        if not self.available[0]:
+            raise Exception(self.available[1])
+
     def __init__(self, data):
         if type(data) == type(self):
             self.data = data.data
@@ -146,24 +150,20 @@ class 卦:
             self.data = 卦象[data]
         else:
             raise Exception("初始化错误：不支持的卦初始化数据")
-        if not self.available[0]:
-            raise Exception(self.available[1])
+        self.selftest()
 
     @property
     def name(self):
-        if not self.available[0]:
-            raise Exception(self.available[1])
+        self.selftest()
         return(rev_dict(卦象)[self.data])
 
     @property
     def elements(self):
-        if not self.available[0]:
-            raise Exception(self.available[1])
+        self.selftest()
         return(卦性[self.name])
 
     def __eq__(self, value):
-        if not self.available[0]:
-            raise Exception(self.available[1])
+        self.selftest()
         return(self.data == value.data)
 
 class 复卦:
@@ -180,10 +180,17 @@ class 复卦:
                 return (False, "运行时错误：动爻表错误")
         return (True, "运行状态良好")
 
+    def selftest(self):
+        if not self.available[0]:
+            raise Exception(self.available[1])
+
     def __init__(self, gua1:卦, gua2:卦, change:list[int]):
         if map(type, [gua1, gua2, change]) != map(type, [卦, 卦, list]):
             raise Exception("初始化错误：复卦初始化失败")
         self.data = [gua1, gua2]
         self.change = change
-        if not self.available[0]:
-            raise Exception(self.available[1])
+        self.selftest()
+
+    @property
+    def 互卦(self):
+        self.selftest()
