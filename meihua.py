@@ -175,4 +175,15 @@ class 复卦:
             return(False, "运行时错误：复卦格式错误")
         if type(self.data[0]) != type(卦) or type(self.data[1]) != type(卦):
             return(False, "运行时错误：复卦格式错误")
+        for i in self.change:
+            if type(i) != type(int):
+                return (False, "运行时错误：动爻表错误")
         return (True, "运行状态良好")
+
+    def __init__(self, gua1:卦, gua2:卦, change:list[int]):
+        if map(type, [gua1, gua2, change]) != map(type, [卦, 卦, list]):
+            raise Exception("初始化错误：复卦初始化失败")
+        self.data = [gua1, gua2]
+        self.change = change
+        if not self.available[0]:
+            raise Exception(self.available[1])
