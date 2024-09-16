@@ -1,6 +1,3 @@
-from typing import Any
-
-
 def rev_dict(d):
     tmp = {}
     for i in d:
@@ -132,7 +129,7 @@ class 卦:
         if len(self.data) != 3:
             return (False, "运行时错误：卦象格式错误")
         for i in self.data:
-            if type(i) != type(int()) and type(i) != type(bool()):
+            if type(i) != type(0) and type(i) != type(False):
                 return (False, "运行时错误：卦象格式错误")
             if int(i) not in (0, 1):
                 return (False, "运行时错误：卦象格式错误")
@@ -147,9 +144,9 @@ class 卦:
             self.data = data.data
         elif type(data) == type(list()) or type(data) == type(tuple()):
             self.data = tuple(data)
-        elif type(data) == type(int()):
+        elif type(data) == type(0):
             self.data = 卦象[卦表[data%8]]
-        elif type(data) == type(str()) and data in 卦表:
+        elif type(data) == type("") and data in 卦表:
             self.data = 卦象[data]
         else:
             raise Exception("初始化错误：不支持的卦初始化数据")
@@ -170,13 +167,20 @@ class 卦:
         return(self.data == value.data)
     
     def __repr__(self):
+        self.selftest()
         return("卦(%s)"%self.data.__repr__())
     
     def __str__(self):
+        self.selftest()
         return("卦(%s)"%self.data.__str__())
 
     def __getitem__(self, index:int):
+        self.selftest()
         return(self.data.__getitem__(index))
+
+    def __setitem__(self, index:int, value):
+        self.selftest()
+        return self.data.__setitem__(index, value)
 
 class 复卦:
     @property
@@ -204,19 +208,35 @@ class 复卦:
         self.selftest()
 
     def __repr__(self):
+        self.selftest()
         return("复卦(%s, %s, %s)"%(self.data[0].__repr__(), self.data[1].__repr__(), self.change.__repr__()))
     
     def __str__(self):
+        self.selftest()
         return("复卦(%s, %s, %s)"%(self.data[0].__str__(), self.data[1].__str__(), self.change.__str__()))
 
     @property
     def name(self):
+        self.selftest()
         return(复卦名[(self.data[1].name, self.data[0].name)])
+
+    def __getitem__(self, index:int):
+        #self.selftest()
+        if index>=3:
+            return(self.data[1][index-3])
+        else:
+            return(self.data[0][index])
+
+    def __setitem__(self, index:int, value):
+        if index>=3:
+            self.data[1][index-3] = value
+        else:
+            self.data[0][index] = value
 
     @property
     def 互卦(self):
         self.selftest()
-        return(复卦(卦([self.data[0][2], self.data[1][0], self.data[1][1]]), 卦([self.data[0][1], self.data[0][2], self.data[1][0]]), []))
+        return(复卦(卦([self[4], self[3], self[2]]), 卦([self[3], self[2], self[1]]), []))
 
 if __name__ == "__main__":
     a = 复卦(卦("巽"), 卦("乾"), [])
