@@ -151,8 +151,27 @@ class 卦:
 
     @property
     def name(self):
+        if not self.available[0]:
+            raise Exception(self.available[1])
         return(rev_dict(卦象)[self.data])
 
     @property
     def elements(self):
+        if not self.available[0]:
+            raise Exception(self.available[1])
         return(卦性[self.name])
+
+    def __eq__(self, value):
+        if not self.available[0]:
+            raise Exception(self.available[1])
+        return(self.data == value.data)
+
+class 复卦:
+    @property
+    def available(self):
+        if type(self.data) != type(list):
+            return(False, "运行时错误：复卦格式错误")
+        if len(self.data) != 2:
+            return(False, "运行时错误：复卦格式错误")
+        if type(self.data[0]) != type(卦) or type(self.data[1]) != type(卦):
+            return(False, "运行时错误：复卦格式错误")
