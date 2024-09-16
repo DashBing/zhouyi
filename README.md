@@ -1,6 +1,6 @@
 # 周易占卜库
 
-#### 本项目按`Mozilla Public License 2.0`许可证开源
+#### 本项目按`Mozilla Public License 2.0`许可证开源，许可证依照目录下的`LICENSE`。
 
 ## 使用前须知
 
