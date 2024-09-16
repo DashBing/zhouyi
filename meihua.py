@@ -165,19 +165,15 @@ class 卦:
     def __eq__(self, value):
         self.selftest()
         return(self.data == value.data)
-    
     def __repr__(self):
         self.selftest()
         return("卦(%s)"%self.data.__repr__())
-    
     def __str__(self):
         self.selftest()
         return("卦(%s)"%self.data.__str__())
-
     def __getitem__(self, index:int):
         self.selftest()
         return(self.data.__getitem__(index))
-
     def __setitem__(self, index:int, value):
         self.selftest()
         return self.data.__setitem__(index, value)
@@ -207,37 +203,34 @@ class 复卦:
         self.change = change
         self.selftest()
 
-    def __repr__(self):
-        self.selftest()
-        return("复卦(%s, %s, %s)"%(self.data[0].__repr__(), self.data[1].__repr__(), self.change.__repr__()))
-    
-    def __str__(self):
-        self.selftest()
-        return("复卦(%s, %s, %s)"%(self.data[0].__str__(), self.data[1].__str__(), self.change.__str__()))
-
     @property
     def name(self):
         self.selftest()
         return(复卦名[(self.data[1].name, self.data[0].name)])
 
+    @property
+    def 互卦(self):
+        self.selftest()
+        return(复卦(卦([self[2], self[3], self[4]]), 卦([self[1], self[2], self[3]]), []))
+
+    def __repr__(self):
+        self.selftest()
+        return("复卦(%s, %s, %s)"%(self.data[0].__repr__(), self.data[1].__repr__(), self.change.__repr__()))
+    def __str__(self):
+        self.selftest()
+        return("复卦(%s, %s, %s)"%(self.data[0].__str__(), self.data[1].__str__(), self.change.__str__()))
     def __getitem__(self, index:int):
         self.selftest()
         if index>=3:
             return(self.data[1][index-3])
         else:
             return(self.data[0][index])
-
     def __setitem__(self, index:int, value):
         self.selftest()
         if index>=3:
             self.data[1][index-3] = value
         else:
             self.data[0][index] = value
-
-    @property
-    def 互卦(self):
-        self.selftest()
-        return(复卦(卦([self[2], self[3], self[4]]), 卦([self[1], self[2], self[3]]), []))
 
 if __name__ == "__main__":
     a = 复卦(卦("巽"), 卦("乾"), [])
