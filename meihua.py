@@ -221,13 +221,14 @@ class 复卦:
         return(复卦名[(self.data[1].name, self.data[0].name)])
 
     def __getitem__(self, index:int):
-        #self.selftest()
+        self.selftest()
         if index>=3:
             return(self.data[1][index-3])
         else:
             return(self.data[0][index])
 
     def __setitem__(self, index:int, value):
+        self.selftest()
         if index>=3:
             self.data[1][index-3] = value
         else:
