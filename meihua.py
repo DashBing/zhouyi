@@ -175,3 +175,4 @@ class 复卦:
             return(False, "运行时错误：复卦格式错误")
         if type(self.data[0]) != type(卦) or type(self.data[1]) != type(卦):
             return(False, "运行时错误：复卦格式错误")
+        return (True, "运行状态良好")
