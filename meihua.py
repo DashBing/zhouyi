@@ -236,7 +236,7 @@ class 复卦:
     @property
     def 互卦(self):
         self.selftest()
-        return(复卦(卦([self[4], self[3], self[2]]), 卦([self[3], self[2], self[1]]), []))
+        return(复卦(卦([self[2], self[3], self[4]]), 卦([self[1], self[2], self[3]]), []))
 
 if __name__ == "__main__":
     a = 复卦(卦("巽"), 卦("乾"), [])
